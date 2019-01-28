@@ -59,7 +59,7 @@ enum
 
 struct AxisValueFormat1
 {
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (likely (c->check_struct (this)));
@@ -82,7 +82,7 @@ struct AxisValueFormat1
 
 struct AxisValueFormat2
 {
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (likely (c->check_struct (this)));
@@ -109,7 +109,7 @@ struct AxisValueFormat2
 
 struct AxisValueFormat3
 {
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (likely (c->check_struct (this)));
@@ -134,7 +134,7 @@ struct AxisValueFormat3
 
 struct AxisValueRecord
 {
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (likely (c->check_struct (this)));
@@ -151,7 +151,7 @@ struct AxisValueRecord
 
 struct AxisValueFormat4
 {
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (likely (c->check_struct (this)));
@@ -175,7 +175,7 @@ struct AxisValueFormat4
 
 struct AxisValue
 {
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     if (unlikely (c->check_struct (this)))
@@ -206,7 +206,7 @@ struct AxisValue
 
 struct StatAxisRecord
 {
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (likely (c->check_struct (this)));
@@ -225,9 +225,9 @@ struct StatAxisRecord
 
 struct STAT
 {
-  enum { tableTag = HB_OT_TAG_STAT };
+  static constexpr hb_tag_t tableTag = HB_OT_TAG_STAT;
 
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (likely (c->check_struct (this) &&
@@ -249,7 +249,7 @@ struct STAT
 				 * in the 'fvar' table. In all fonts, must
 				 * be greater than zero if axisValueCount
 				 * is greater than zero. */
-  LOffsetTo<UnsizedArrayOf<StatAxisRecord>, false>
+  LNNOffsetTo<UnsizedArrayOf<StatAxisRecord> >
 		designAxesOffset;
 				/* Offset in bytes from the beginning of
 				 * the STAT table to the start of the design
@@ -257,7 +257,7 @@ struct STAT
 				 * set to zero; if designAxisCount is greater
 				 * than zero, must be greater than zero. */
   HBUINT16	axisValueCount;	/* The number of axis value tables. */
-  LOffsetTo<UnsizedArrayOf<OffsetTo<AxisValue> >, false>
+  LNNOffsetTo<UnsizedArrayOf<OffsetTo<AxisValue> > >
 		offsetToAxisValueOffsets;
 				/* Offset in bytes from the beginning of
 				 * the STAT table to the start of the design

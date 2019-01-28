@@ -40,11 +40,11 @@ namespace AAT {
 
 struct FontDescriptor
 {
-  inline bool has_data () const { return tag; }
+  bool has_data () const { return tag; }
 
-  inline int cmp (hb_tag_t a) const { return tag.cmp (a); }
+  int cmp (hb_tag_t a) const { return tag.cmp (a); }
 
-  inline float get_value () const { return u.value.to_float (); }
+  float get_value () const { return u.value.to_float (); }
 
   enum non_alphabetic_value_t {
     Alphabetic		= 0,
@@ -56,7 +56,7 @@ struct FontDescriptor
     MathSymbols		= 6
   };
 
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (c->check_struct (this));
@@ -74,7 +74,7 @@ struct FontDescriptor
 
 struct fdsc
 {
-  enum { tableTag = HB_AAT_TAG_fdsc };
+  static constexpr hb_tag_t tableTag = HB_AAT_TAG_fdsc;
 
   enum {
     Weight	 = HB_TAG ('w','g','h','t'),
@@ -97,10 +97,10 @@ struct fdsc
 				 * (default value: 0) */
   };
 
-  inline const FontDescriptor &get_descriptor (hb_tag_t style) const
+  const FontDescriptor &get_descriptor (hb_tag_t style) const
   { return descriptors.lsearch (style); }
 
-  inline bool sanitize (hb_sanitize_context_t *c) const
+  bool sanitize (hb_sanitize_context_t *c) const
   {
     TRACE_SANITIZE (this);
     return_trace (c->check_struct (this) &&

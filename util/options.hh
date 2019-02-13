@@ -74,10 +74,13 @@ struct option_parser_t
 
     add_main_options ();
   }
+
+  static void _g_free_g_func (void *p, void * G_GNUC_UNUSED) { g_free (p); }
+
   ~option_parser_t ()
   {
     g_option_context_free (context);
-    g_ptr_array_foreach (to_free, (GFunc) g_free, nullptr);
+    g_ptr_array_foreach (to_free, _g_free_g_func, nullptr);
     g_ptr_array_free (to_free, TRUE);
   }
 
@@ -672,6 +675,7 @@ struct subset_options_t : option_group_t
   {
     keep_layout = false;
     drop_hints = false;
+    retain_gids = false;
     desubroutinize = false;
 
     add_options (parser);
@@ -681,6 +685,7 @@ struct subset_options_t : option_group_t
 
   hb_bool_t keep_layout;
   hb_bool_t drop_hints;
+  hb_bool_t retain_gids;
   hb_bool_t desubroutinize;
 };
 
